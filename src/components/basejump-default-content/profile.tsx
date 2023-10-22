@@ -4,18 +4,18 @@ import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { Database } from "@/types/supabase-types";
 import ContentMeta from "@/components/content-pages/content-meta";
 
-const ProfilePage = () => {
+export default function ProfilePage({ slug }) {
   const [profileData, setProfileData] = useState<any>({});
   const user = useUser();
   const supabaseClient = useSupabaseClient<Database>();
 
   useEffect(() => {
     const fetchData = async () => {
-      if (user) {
+      if (user && slug) {
         const response = await supabaseClient
           .from("pilots")
           .select()
-          .eq('email', user.email);
+          .eq('slug', slug);
   
         if (!response.error && response.data.length === 1) {
           setProfileData(response.data[0]);
@@ -26,7 +26,7 @@ const ProfilePage = () => {
     }
 
     fetchData();
-  }, [user]);
+  }, [user, slug]);
 
   return (
     <div className="max-w-screen-lg mx-auto bg-base-100">
@@ -35,13 +35,19 @@ const ProfilePage = () => {
         description="XC Pilot profile page"
         socialImage={`/api/og?title=Basejump`}
       />
-      {user ? (
+      {profileData.email ? (
         <div className="pt-8 pb-24 md:pt-36 md:pb-48">
-          <h2 className="h2 text-center my-2">Hi {profileData.prename} {profileData.lastname}!</h2>
+          <h2 className="h2 text-center my-2">
+            {user.email === profileData.email ? `Hi ${profileData.prename} ${profileData.lastname}!` : `${profileData.prename} ${profileData.lastname}`}
+          </h2>
         </div>
-      ) : null}
+      ) : (
+        <div className="pt-8 pb-24 md:pt-36 md:pb-48">
+          <p className="text-center">
+          Loading profile ...
+          </p>
+        </div>
+      )}
     </div>
   );
 };
-
-export default ProfilePage;
