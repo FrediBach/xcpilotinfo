@@ -1,5 +1,5 @@
-import BasejumpHomepage from "@/components/basejump-default-content/homepage";
+import ProfilePage from "@/components/basejump-default-content/profile";
 
-const PilotProfilePage = () => <BasejumpHomepage />;
+const PilotProfilePage = () => <ProfilePage />;
 
 export default PilotProfilePage;
