@@ -9,7 +9,12 @@ module.exports = {
     "node_modules/react-daisyui/dist/**/*.js",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'sans': ['Inter', 'Helvetica', 'Arial', 'sans-serif'],
+        'body': ['Inter', 'Helvetica', 'Arial', 'sans-serif'],
+      }
+    },
   },
   plugins: [
     require("@tailwindcss/typography"),
